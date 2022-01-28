@@ -1,12 +1,14 @@
 class ApplicationController < ActionController::Base
 
     def after_sign_in_path_for(resource)
-        if current_user.role == 1
-            new_user_registration_path
-        elsif current_user.role == 2
+        if current_user.has_role? :customer
             root_path
-        elsif current_user.role == 3
-            new_user_session_path
+        elsif current_user.has_role? :vendor
+            transaction_orders_path
+        elsif current_user.has_role? :admin
+            orders_path
+        else
+            root_path
         end
-      end
+    end
 end

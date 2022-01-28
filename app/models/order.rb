@@ -1,4 +1,7 @@
 class Order < ApplicationRecord
+
+    has_many :order_items
+
     def check order
         case order
         when 1

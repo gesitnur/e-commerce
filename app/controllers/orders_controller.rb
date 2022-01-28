@@ -2,8 +2,8 @@ class OrdersController < ApplicationController
     def index
         @order = current_user.carts.where(status: 'checked')
 
-        @address = current_user.carts.find_by_user_id(current_user.id).user.addresses.first
-
+        @address = current_user.carts.find_by_user_id(current_user.id).user.addresses
+        # render plain:@address.inspect
 
         # render plain:@coba.inspect
     end
@@ -18,12 +18,12 @@ class OrdersController < ApplicationController
         @arrayy = @item.group_by(&:vendor_id)
 
         @arrayy.each do |client_id, projects|
-            # @order        = Order.new(user_id:current_user.id , total: params[:total] , address_id: params[:address])
+            @order        = Order.new(user_id:current_user.id , total: params[:total] , address_id: params[:address], vendor_id: client_id)
             # @order.save
             projects.each do |t|
                 coba[no] = {
-                            # order_id: @order.id, 
-                            product_id: t.product.user_id,
+                            order_id: @order.id, 
+                            product_id: t.product.stock(t.product, t.qty),
                             qty: t.qty,
                             total: t.total
             
@@ -34,6 +34,9 @@ class OrdersController < ApplicationController
             
         end
 
+        # OrderItem.insert_all(coba) 
+        
+        # User.update_balance(current_user, params[:total])
 
         render plain:coba
 
@@ -63,8 +66,6 @@ class OrdersController < ApplicationController
 
         
         # OrderItem.insert_all(coba) 
-        
-        user = User.new
         # user.update_balance(current_user, params[:total])
         # @item.save
 
@@ -79,13 +80,30 @@ class OrdersController < ApplicationController
         # render plain:params
     end
 
-    def new
-        render plain:"aa"
+    def show
+        @order = Order.find(params[:id])
+
+        @order_item = @order.order_items
+
+        # render plain:@order_item.inspect
     end
 
     def transaction
-        @transaction = Order.where(user_id: current_user)
+        if current_user.has_role? :customer
+            @transaction = Order.where(user_id: current_user)
+        elsif current_user.has_role? :vendor
+            @transaction = Order.where(vendor_id: current_user)
+        end
+
+       
         # render plain:@transaction.inspect
+    end
+
+    def update
+        @order = Order.find(params[:id])
+        @order.update(status: params[:status])
+
+        redirect_to transaction_orders_path
     end
 
 end

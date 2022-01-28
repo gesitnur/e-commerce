@@ -1,0 +1,27 @@
+
+<div class="row" style="justify-content: center;">
+    <% @products.each do |t| %>
+        <div class="card border-dark mb-3 col-md-4>" style="max-width: 18rem; margin: 10px">
+            <div class="card-header"></div>
+            <div class="card-body text-dark row">
+                <div class="col-md-6">
+                    <%= link_to home_path(t) do %>
+                        <%= t.image ? image_tag(t.image.url, alt: 'Image') : '' ;  %>
+
+                        <%= image_tag ("/assets/product/#{t.image}"), class: "img-responsive", width: "230px", height: "230px" %></br>
+                    <% end %>
+                    <strong><%= t.name.titleize %></br></strong></br>
+                    <h5>Rp <%= number_with_precision( t.price, :precision => 0, :delimiter => '.') %></br></h5>
+                    Kota Bandung</br>
+                </div>
+                <div class="col-md-6">
+                </div>
+                    
+            </div>
+        </div>
+
+    <% end %>
+    <br>
+
+</div>
+ 

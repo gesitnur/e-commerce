@@ -5,9 +5,16 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  root "products#index"
+  root "home#index"
 
-  resources :products
+  resources :home do
+    member do
+       get 'p'
+    end
+ end
+
+ resources :products
+
   resources :carts
   resources :orders do
     collection do

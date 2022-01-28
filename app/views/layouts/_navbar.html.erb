@@ -7,7 +7,21 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="#">Home </a>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Produk', products_path, class: 'nav-link active' %>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Kategori
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><%= link_to 'Semua Kategori' , root_path, class: 'dropdown-item' %></li>
+              <% list_categories.each do |t| %>
+              <li><%= link_to t.description , p_home_path(t.id), class: 'dropdown-item' %></li>
+              <% end %>
+            </ul>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
@@ -22,11 +36,12 @@
             <%= link_to 'Cart', carts_path, class: 'nav-link active' %>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Saldo : <%= user_signed_in? ? current_user.balance.balance : ''%></a>
+            <a class="nav-link">Saldo : <%= user_signed_in? ? "Rp #{ number_with_precision( current_user.balance.balance, :precision => 0, :delimiter => '.') }": ''%></a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <%= user_signed_in? ? current_user.name : 'Halo Guest'%>
+              <%= %>
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <% if user_signed_in?%>
