@@ -1,0 +1,54 @@
+</br>
+<h3 style="margin: 20px;">Daftar Belanja</h3>
+  <% @total = 0 %>
+<table style="width: 100%;
+  border: 1px solid black;margin: 20px">
+  <tr>
+    <th width="190px"></th>
+    <th>ITEM</th>
+    <th>HARGA</th>
+    <th>QTY</th>
+    <th>JUMLAH</th>
+  </tr>
+  <% @order.each do |t| %>
+  <% coba = Cart.find(t.id)%>
+  <tr>
+    <td><%= image_tag ("/assets/product/#{coba.product.image}"), class: "img-responsive", width: "150px", style:"margin:10px"%></br></td>
+    <td><%= coba.product.name %></td>
+    <td>Rp <%= number_with_precision( coba.product.price, :precision => 0, :delimiter => '.') %></td>
+    <td> <%= t.qty%> </td>
+    <td>Rp <%= number_with_precision( coba.product.price, :precision => 0, :delimiter => '.') %></td>
+  </tr>
+  <% @total += coba.product.price %>
+  <% end %>
+
+
+  
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+
+</table>
+<div class="text-right" style="padding: 10px">
+<%= form_tag orders_path, :method => :post, local: true, data: { turbo: false } do |f| %>
+    <div class="card">
+        <div>
+            <%= label_tag :Alamat  %>
+        </div>
+        <%= text_field_tag :address , @address.address %>
+        
+    </br>
+        <div>
+            <%= label_tag :total  %>
+        </div>
+        <%= text_field_tag :total , @total %>
+        
+    </div>
+    </br>
+    <div>
+        <%= submit_tag "Order", class: "btn btn-success text-right", style:'background-color: #0E7387; border-color: #0E7387; ' %>
+    </div>
+
+<% end %>
+</div>

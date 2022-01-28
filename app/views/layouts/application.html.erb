@@ -10,7 +10,44 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body style="">
+    
+    <%= render 'layouts/navbar'%>
+
+    <%# <p class="notice"><= notice ></p> %>
+    <%# <p class="alert"><= alert ></p> %>
     <%= yield %>
   </body>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script>
+    // alert("ini alert percobaan ")
+  
+    // $( ".btn-checkout" ).click(function() {
+    //   alert( "Handler for .click() called." );
+    // });
+  
+    $( ".btn-plus" ).click(function() {
+        // e.preventDefault();
+          
+        data = $(this).data('id');
+        console.log(data);
+        $.ajax({
+          beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            type: 'PATCH',
+            url:  "/carts/"+data,
+            dataType: 'JSON'
+        }).done(function (data) {
+            location.reload();
+        }).fail(function (data) {
+            alert(data.alert);
+        });
+      // alert( "Button Plus sudah diklik" );
+    });
+
+    
+
+
+  </script>
+
 </html>

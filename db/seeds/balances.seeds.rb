@@ -1,0 +1,1 @@
+Balance.create(user_id: 1, balance: 10000000)

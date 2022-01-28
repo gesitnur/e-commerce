@@ -1,0 +1,27 @@
+</br>
+<h3 style="margin: 20px;">Order</h3>
+<table style="width: 100%;
+  border: 1px solid black;margin: 20px">
+  <tr>
+    <th style="padding: 10px">No</th>
+    <th>Tanggal</th>
+    <th>Total</th>
+    <th>Status</th>
+  </tr>
+  <% @transaction.each do |t| %>
+  <tr>
+    <td style="padding: 10px">1</td>
+    <td>27 Januari 2021</td>
+    <td>Rp <%= number_with_precision( t.total, :precision => 0, :delimiter => '.') %></td>
+    <td><%= t.check(t.status) %></td>
+  </tr>
+  <% end %>
+
+
+  
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+
+</table>

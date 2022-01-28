@@ -1,0 +1,37 @@
+</br>
+<h3 style="margin: 20px;">Cart</h3>
+<table style="width: 100%;
+  border: 1px solid black;margin: 20px">
+  <tr>
+    <th width=""></th>
+    <th width="190px"></th>
+    <th>ITEM</th>
+    <th>HARGA</th>
+    <th>QTY</th>
+    <th>JUMLAH</th>
+    <th></th>
+  </tr>
+  <% @cart.each do |t| %>
+  <% coba = Cart.find(t.id)%>
+  <tr>
+    <td style="padding-left:10px;"><input class="form-check-input btn-plus" <%= t.status %> data-id=<%= t.id %> style="width: 20px; height: 20px;" type="checkbox" value="" id="flexCheckDefault"></td>
+    <td><%= image_tag ("/assets/product/#{coba.product.image}"), class: "img-responsive", width: "150px", style:"margin:10px"%></br></td>
+    <td><%= coba.product.name %></td>
+    <td>Rp <%= number_with_precision( coba.product.price, :precision => 0, :delimiter => '.') %></td>
+    <td><%= t.qty%></td>
+    <td>Rp <%= number_with_precision( coba.product.price, :precision => 0, :delimiter => '.') %></td>
+    <td><%= %></td>
+  </tr>
+  <% end %>
+
+
+  
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+
+</table>
+<div class="text-right" style="padding: 10px">
+<%= link_to "Checkout", orders_path, class:"btn btn-success text-right btn-checkout", style:'background-color: #0E7387; border-color: #0E7387; ' %>
+</div>
