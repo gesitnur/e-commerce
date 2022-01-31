@@ -17,4 +17,11 @@ class User < ApplicationRecord
 
   end
 
+  def self.restore_balance a, total
+    # new_total = a.balance.balance
+    new_total = a.balance.balance + total.to_i
+    # total.to_i
+    a.balance.update(balance: new_total)
+  end
+
 end

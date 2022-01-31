@@ -1,0 +1,28 @@
+</br>
+<h3 style="margin: 20px;">Master User</h3>
+<table style="width: 100%;
+  border: 1px solid black;margin: 20px">
+  <tr>
+    <th style="padding: 10px">No</th>
+    <th>Nama</th>
+    <th>Role</th>
+    <th></th>
+  </tr>
+  <% @user.each do |t| %>
+  <tr>
+    <td style="padding: 10px">1</td>
+    <td><%= t.name %></td>
+    <td><%= t.roles.pluck(:name)[0] %></td>
+    <td> <%= link_to 'Detail', user_path(t) %> &nbsp; <%= link_to "Hapus", user_path(t), data: { "turbo-method": :delete} %> </td>
+
+  </tr>
+  <% end %>
+
+
+  
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+
+</table>

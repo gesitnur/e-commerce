@@ -13,7 +13,9 @@
   <% @order_item.each do |t| %>
   <tr>
     <td style="padding: 10px">1</td>
-    <td><%= image_tag ("/assets/product/#{t.product.image}"), class: "img-responsive", width: "150px", style:"margin:10px"%></br></td>
+    <td>
+    <%= t.product.image ? image_tag(t.product.image.url, alt: 'Image', class: "img-responsive", width: "150px", style:"margin:10px") : '' ;  %></br>
+    </td>
     <td><%= t.qty %></td>
     <td>Rp <%= number_with_precision( t.total, :precision => 0, :delimiter => '.') %></td>
   </tr>

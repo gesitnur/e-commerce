@@ -6,12 +6,18 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home </a>
-          </li>
+          <% if user_signed_in? && current_user.has_role?(:vendor) %>
           <li class="nav-item">
             <%= link_to 'Produk', products_path, class: 'nav-link active' %>
           </li>
+          <% end %>
+          
+          <% if user_signed_in? && current_user.has_role?(:admin) %>
+          <li class="nav-item">
+            <%= link_to 'User', user_index_path, class: 'nav-link active' %>
+          </li>
+          <% end %>
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Kategori
@@ -22,12 +28,6 @@
               <li><%= link_to t.description , p_home_path(t.id), class: 'dropdown-item' %></li>
               <% end %>
             </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
           </li>
         </ul>
         <form class="d-flex">
@@ -46,6 +46,9 @@
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <% if user_signed_in?%>
                 <li><%= link_to 'Transaksi',transaction_orders_path, class: 'dropdown-item' %></li>
+                <% if user_signed_in? && current_user.has_role?(:customer) %>
+                  <li><%= link_to 'Profile',transaction_orders_path, class: 'dropdown-item' %></li>
+                <% end %>
                 <li>
                 </br>
                 <li><%= link_to 'Logout', destroy_user_session_path, data: { "turbo-method": :delete}, class: 'dropdown-item' %></li>

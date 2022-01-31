@@ -6,13 +6,12 @@
             <div class="card-body text-dark row">
                 <div class="col-md-6">
                     <%= link_to home_path(t) do %>
-                        <%= t.image ? image_tag(t.image.url, alt: 'Image') : '' ;  %>
+                        <%= t.image ? image_tag(t.image.url, alt: 'Image', class: "img-responsive", width: "230px", height: "230px") : '' ;  %>
 
-                        <%= image_tag ("/assets/product/#{t.image}"), class: "img-responsive", width: "230px", height: "230px" %></br>
                     <% end %>
                     <strong><%= t.name.titleize %></br></strong></br>
                     <h5>Rp <%= number_with_precision( t.price, :precision => 0, :delimiter => '.') %></br></h5>
-                    Kota Bandung</br>
+                    Kota <%= t.user.city %></br>
                 </div>
                 <div class="col-md-6">
                 </div>

@@ -1,0 +1,39 @@
+<div class='col-md-6 offset-md-3'>
+    <h3>Edit Produk</h3>
+    <br>
+    <%= form_for @user, local: true, data: { turbo: false } do |f| %>
+        <div class='form-group'>
+            <%= f.label :nama %>
+            <%= f.text_field :name, class: 'form-control' %>
+        </div>
+        <div class='form-group'>
+            <%= f.label :email %>
+            <%= f.text_field :email, class: 'form-control' %>
+        </div>
+        <div class='form-group'>
+            <%= f.label :no_telepon %>
+            <%= f.text_field :phone, class: 'form-control' %>
+        </div>
+        <div class='form-group'>
+            <%= f.label :kota %>
+            <%= f.text_field :city, class: 'form-control' %>
+        </div>
+        <%= f.fields_for @balance do |s| %>
+        <div class='form-group'>
+            <%= s.label :Saldo %>
+            <%= s.text_field :balance, class: 'form-control' %>
+        </div>
+        <% end %>
+
+        <div class='form-group'>
+            <%= f.label :role %>
+            <%= f.text_field :role, value: @role, class: 'form-control' %>
+        </div>      
+        
+        
+        <div class='form-group'>
+            <%= f.submit 'Simpan', class: 'btn btn-primary form-control'%>
+        </div>
+    
+        <% end %>
+</div>

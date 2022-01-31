@@ -22,7 +22,7 @@
 
     <% if current_user.has_role? :vendor %>
     <td>
-      <% if t.status == 1%>
+    <% if t.status == 1%>
       <%= link_to "Approve", order_path(t, status: 2), data: { "turbo-method": :patch} %>
       <%= link_to "Reject", order_path(t, status: 3), data: { "turbo-method": :patch} %></td>
       <% end %>

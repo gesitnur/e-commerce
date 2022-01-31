@@ -13,7 +13,8 @@
   <% @order.each do |t| %>
   <% coba = Cart.find(t.id)%>
   <tr>
-    <td><%= image_tag ("/assets/product/#{coba.product.image}"), class: "img-responsive", width: "150px", style:"margin:10px"%></br></td>
+    <td><%= coba.product.image ? image_tag(coba.product.image.url, alt: 'Image', class: "img-responsive", width: "150px", style:"margin:10px") : '' ;  %>
+    </br></td>
     <td><%= coba.product.name %></td>
     <td>Rp <%= number_with_precision( coba.product.price, :precision => 0, :delimiter => '.') %></td>
     <td> <%= t.qty%> </td>

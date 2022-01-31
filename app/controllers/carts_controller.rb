@@ -7,18 +7,24 @@ class CartsController < ApplicationController
 
     def create
 
-        @cart = Cart.new(resource_param)
-        @cart.qty = 1
+        @old_cart = Cart.where(user_id: current_user.id, product_id: resource_param[:product_id]).first
 
-        # render plain:@cart.inspect
-
-        if @cart.save
-            redirect_to root_path
-            flash.alert = "Berhasil Disimpan"
+        if @old_cart
+            @old_cart.update(qty: @old_cart.qty + 1, total: @old_cart.total * 2)
         else
-            render 'show'
+            @cart = Cart.new(resource_param)
+            @cart.qty = 1
+    
+            # render plain:@cart.inspect
+    
+            @cart.save
         end
-        # render plain: resource_param
+
+        
+        redirect_to root_path
+        flash.alert = "Berhasil Disimpan"
+        
+        
 
 
     end
@@ -29,6 +35,14 @@ class CartsController < ApplicationController
         @cart.status = @cart.status ? nil : 'checked'
         @cart.save
         # render plain:@cart.status ? 'isi' : 'kosong'
+    end
+
+    def destroy
+        @cart = Cart.find(params[:id])
+        @destroy = @cart.destroy
+        
+        # render plain:@destroy
+        redirect_to root_path, status: :see_other
     end
 
     private

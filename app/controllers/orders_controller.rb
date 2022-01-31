@@ -13,71 +13,44 @@ class OrdersController < ApplicationController
 
         no = 0
 
+        ttl = 0
+
         coba =  []
+
+        cb = []
         
         @arrayy = @item.group_by(&:vendor_id)
 
         @arrayy.each do |client_id, projects|
             @order        = Order.new(user_id:current_user.id , total: params[:total] , address_id: params[:address], vendor_id: client_id)
-            # @order.save
+            @order.save
             projects.each do |t|
                 coba[no] = {
                             order_id: @order.id, 
-                            product_id: t.product.stock(t.product, t.qty),
+                            product_id: t.product_id,
                             qty: t.qty,
                             total: t.total
             
                         }
                     no += 1
+                    t.product.add_stock(t.product, t.qty)
+                    ttl = ttl+t.total
             end
-            # coba = []
-            
+            @order        = @order.update(total: ttl)
+            ttl = 0
         end
 
-        # OrderItem.insert_all(coba) 
+        OrderItem.insert_all(coba) 
         
-        # User.update_balance(current_user, params[:total])
-
-        render plain:coba
-
-        # render plain:@item.inspect
-
-        # title       = params[:book][:title]
-        # description = params[:book][:description]
-        # page        = params[:book][:page]
-        # price       = params[:book][:price]
-        # book        = Book.new(title: title, description: description, 
-        #                 page: page, price: price)
-        
-        # @order        = Order.new(user_id:current_user.id , total: params[:total] , address_id: params[:address])
-        # @order.save
-        # # p = Product.new
-        # @item.each do |t|
-            
-        #     coba[no] = {
-        #         order_id: @order.id, 
-        #         product_id: t.product.user_id,
-        #         qty: t.qty,
-        #         total: t.total
-
-        #     }
-        #     no += 1
-        # end
-
-        
-        # OrderItem.insert_all(coba) 
-        # user.update_balance(current_user, params[:total])
-        # @item.save
+        User.update_balance(current_user, params[:total])
 
         # render plain:coba
 
-        # @item.destroy_all
 
-        # redirect_to root_path
+        @item.destroy_all
 
-        # render plain:@item.inspect
+        redirect_to root_path
         
-        # render plain:params
     end
 
     def show
@@ -101,9 +74,16 @@ class OrdersController < ApplicationController
 
     def update
         @order = Order.find(params[:id])
-        @order.update(status: params[:status])
 
-        redirect_to transaction_orders_path
+        if params[:status] == '3'
+            
+            # User.restore_balance(User::find(@order.user_id), @order.total).inspect
+
+            render plain: Product.restore_stock(@order.order_items)
+        end
+        # @order.update(status: params[:status])
+       
+        # redirect_to transaction_orders_path
     end
 
 end

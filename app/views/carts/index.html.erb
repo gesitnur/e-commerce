@@ -12,15 +12,15 @@
     <th></th>
   </tr>
   <% @cart.each do |t| %>
-  <% coba = Cart.find(t.id)%>
   <tr>
     <td style="padding-left:10px;"><input class="form-check-input btn-plus" <%= t.status %> data-id=<%= t.id %> style="width: 20px; height: 20px;" type="checkbox" value="" id="flexCheckDefault"></td>
-    <td><%= image_tag ("/assets/product/#{coba.product.image}"), class: "img-responsive", width: "150px", style:"margin:10px"%></br></td>
-    <td><%= coba.product.name %></td>
-    <td>Rp <%= number_with_precision( coba.product.price, :precision => 0, :delimiter => '.') %></td>
+    <td><%= t.product.image ? image_tag(t.product.image.url, alt: 'Image', class: "img-responsive", width: "150px", style:"margin:10px") : '' ;  %>
+    </br></td>
+    <td><%= t.product.name %></td>
+    <td>Rp <%= number_with_precision( t.product.price, :precision => 0, :delimiter => '.') %></td>
     <td><%= t.qty%></td>
-    <td>Rp <%= number_with_precision( coba.product.price, :precision => 0, :delimiter => '.') %></td>
-    <td><%= %></td>
+    <td>Rp <%= number_with_precision( t.total, :precision => 0, :delimiter => '.') %></td>
+    <td><%= link_to 'Hapus', cart_path(t), data: { "turbo-method": :delete} %></td>
   </tr>
   <% end %>
 
