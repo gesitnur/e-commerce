@@ -2,6 +2,7 @@
 <h3 style="margin: 20px;">Detail Order</h3>
 <h5 style="margin: 20px;">Status  : <%= @order.check(@order.status) %></h5>
 <h5 style="margin: 20px;">Tanggal : <%= @order.created_at.to_date %></h5>
+<h5 style="margin: 20px;">Toko    : <%= @order.other_user.inspect %></h5>
 <table style="width: 100%;
   border: 1px solid black;margin: 20px">
   <tr>

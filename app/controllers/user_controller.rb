@@ -19,11 +19,32 @@ class UserController < ApplicationController
     end
 
     def update
-        render plain:params
+        @user = User::find(params[:id])
+        
+        @user.update(resource_params)
+
+        if params[:role] != @user.roles[0].name
+            @user.remove_role(@user.roles[0].name)
+
+            @user.grant(params[:role] )
+        end
+        
+        # @user.remove_role(:admin)
+
+        # @user.grant(:customer)
+        
+        render plain:resource_params[:role] != @user.roles[0].name
+        # render plain:@user.roles[0].name
     end        
 
     def destroy
         render plain:'ini delete'
+    end
+
+    private
+
+    def resource_params
+        params.require(:user). permit(:name, :email, :phone, :city)
     end
     
 end

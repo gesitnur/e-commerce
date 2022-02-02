@@ -1,5 +1,5 @@
 <div class='col-md-6 offset-md-3'>
-    <h3>Edit Produk</h3>
+    <h3>Edit User</h3>
     <br>
     <%= form_for @user, local: true, data: { turbo: false } do |f| %>
         <div class='form-group'>
@@ -21,7 +21,7 @@
         <%= f.fields_for @balance do |s| %>
         <div class='form-group'>
             <%= s.label :Saldo %>
-            <%= s.text_field :balance, class: 'form-control' %>
+            <%= s.text_field :balance, class: 'form-control', disabled:true %>
         </div>
         <% end %>
 
