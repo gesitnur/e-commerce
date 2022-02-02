@@ -29,12 +29,14 @@
         </div>
 
         <br>
+        <% if !@user.has_role? :admin %>
         <div class='form-group'>
             <%= link_to 'Edit' , edit_user_path, class: 'btn btn-secondary form-control' %><br/><br/>
             <%= link_to 'Top Up' , edit_user_path, class: 'btn btn-primary form-control' %>
             <br/><br/>
 
         </div>
+        <% end %>
     
         <% end %>
 </div>

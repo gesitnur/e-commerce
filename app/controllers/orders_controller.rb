@@ -77,13 +77,13 @@ class OrdersController < ApplicationController
 
         if params[:status] == '3'
             
-            # User.restore_balance(User::find(@order.user_id), @order.total).inspect
+            User.restore_balance(User::find(@order.user_id), @order.total)
 
-            render plain: Product.restore_stock(@order.order_items)
+            Product.restore_stock(@order.order_items)
         end
-        # @order.update(status: params[:status])
+        @order.update(status: params[:status])
        
-        # redirect_to transaction_orders_path
+        redirect_to transaction_orders_path
     end
 
 end

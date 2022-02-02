@@ -56,7 +56,8 @@ class ProductsController < ApplicationController
         # @book        = Book.new(resource_params) 
         
 
-        render plain:@inventory.inspect
+        # render plain:@inventory.inspect
+        redirect_to products_path
     end
 
     def destroy
