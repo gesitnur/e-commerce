@@ -22,34 +22,36 @@ class OrdersController < ApplicationController
         @arrayy = @item.group_by(&:vendor_id)
 
         @arrayy.each do |client_id, projects|
-            @order        = Order.new(user_id:current_user.id , total: params[:total] , address_id: params[:address], vendor_id: client_id)
-            @order.save
+            # @order        = Order.new(user_id:current_user.id , total: params[:total] , address_id: params[:address], vendor_id: client_id)
+            # @order.save
             projects.each do |t|
                 coba[no] = {
-                            order_id: @order.id, 
+                            order_id: nil, 
                             product_id: t.product_id,
                             qty: t.qty,
-                            total: t.total
+                            total: t.product.price
             
                         }
                     no += 1
+                    t.product.make_log(t.product, t.qty, 'Penjualan')
                     t.product.add_stock(t.product, t.qty)
-                    ttl = ttl+t.total
+                    # t.product.custom_counter(t.product, t.qty)
+                    ttl = ttl+t.product.price
             end
-            @order        = @order.update(total: ttl)
+            # @order        = @order.update(total: ttl)
             ttl = 0
         end
 
-        OrderItem.insert_all(coba) 
+
+        # OrderItem.insert_all(coba) 
         
-        User.update_balance(current_user, params[:total])
-
-        # render plain:coba
+        # User.update_balance(current_user, params[:total])
 
 
-        @item.destroy_all
+        render plain:coba
+        # @item.destroy_all
 
-        redirect_to root_path
+        # redirect_to root_path
         
     end
 
@@ -80,6 +82,8 @@ class OrdersController < ApplicationController
             User.restore_balance(User::find(@order.user_id), @order.total)
 
             Product.restore_stock(@order.order_items)
+        else
+            Product.custom_counter(@order.order_items)
         end
         @order.update(status: params[:status])
        

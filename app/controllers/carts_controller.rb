@@ -8,20 +8,19 @@ class CartsController < ApplicationController
     def create
 
         @old_cart = Cart.where(user_id: current_user.id, product_id: resource_param[:product_id]).first
+            # render plain:resource_param
 
         if @old_cart
-            @old_cart.update(qty: @old_cart.qty + 1, total: @old_cart.total * 2)
+            @old_cart.update(qty: @old_cart.qty + 1)
         else
             @cart = Cart.new(resource_param)
             @cart.qty = 1
-    
-            # render plain:@cart.inspect
     
             @cart.save
         end
 
         
-        redirect_to root_path
+        redirect_to carts_path
         flash.alert = "Berhasil Disimpan"
         
         
@@ -48,7 +47,7 @@ class CartsController < ApplicationController
     private
 
     def resource_param
-        params. permit(:user_id, :product_id, :vendor_id, :total)
+        params. permit(:user_id, :product_id, :vendor_id)
     end
 
 end

@@ -19,7 +19,7 @@
     <td><%= t.product.name %></td>
     <td>Rp <%= number_with_precision( t.product.price, :precision => 0, :delimiter => '.') %></td>
     <td><%= t.qty%></td>
-    <td>Rp <%= number_with_precision( t.total, :precision => 0, :delimiter => '.') %></td>
+    <td>Rp <%= number_with_precision( t.product.price * t.qty, :precision => 0, :delimiter => '.') %></td>
     <td><%= link_to 'Hapus', cart_path(t), data: { "turbo-method": :delete} %></td>
   </tr>
   <% end %>

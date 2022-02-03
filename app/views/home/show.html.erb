@@ -20,7 +20,7 @@
             <div class="col-md-6">
             <%# add_cart %>
 
-            <%= button_to "Tambah Ke Keranjang", carts_path(product_id: @product.id, user_id: current_user.id, vendor_id: @product.user_id, total: @product.price), :method => "post", class:"btn btn-success", style:'background-color: #77c852; border-color: #77c852; ' %>
+            <%= button_to "Tambah Ke Keranjang", carts_path(product_id: @product.id, user_id: current_user.id, vendor_id: @product.user_id), :method => "post", class:"btn btn-success", style:'background-color: #77c852; border-color: #77c852; ' %>
             </div>
         </div>
     </div>

@@ -16,6 +16,10 @@ class ProductsController < ApplicationController
     def show
         @product    = Product.find(params[:id])
         @inventory  = @product.inventory
+        @history    = @product.stock_history
+        
+        # render plain: @history.inspect
+
         # render plain:@inventory.inspect
     end
 
@@ -53,10 +57,6 @@ class ProductsController < ApplicationController
         # book        = Book.new(title: title, description: description, 
         #                 page: page, price: price)
         
-        # @book        = Book.new(resource_params) 
-        
-
-        # render plain:@inventory.inspect
         redirect_to products_path
     end
 

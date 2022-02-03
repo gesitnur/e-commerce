@@ -6,14 +6,16 @@
   <tr>
     <th style="padding: 10px">No</th>
     <th>Nama</th>
-    <th>Kategori</th>
+    <th>Stok</th>
+    <th>Jumlah Terjual</th>
     <th></th>
   </tr>
   <% @products.each do |t| %>
   <tr>
     <td style="padding: 10px">1</td>
     <td><%= t.name %></td>
-    <td><%= t.category.description %></td>
+    <td><%= t.inventory.stock %></td>
+    <td><%= t.order_items_count  %></td>
     <td><%= link_to "Detail", product_path(t) %> &nbsp; <%= link_to "Hapus", product_path(t), data: { "turbo-method": :delete} %></td>
 
   </tr>
