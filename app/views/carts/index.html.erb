@@ -9,6 +9,7 @@
     <th>HARGA</th>
     <th>QTY</th>
     <th>JUMLAH</th>
+    <th>Toko</th>
     <th></th>
   </tr>
   <% @cart.each do |t| %>
@@ -20,6 +21,7 @@
     <td>Rp <%= number_with_precision( t.product.price, :precision => 0, :delimiter => '.') %></td>
     <td><%= t.qty%></td>
     <td>Rp <%= number_with_precision( t.product.price * t.qty, :precision => 0, :delimiter => '.') %></td>
+    <td><%= t.vendor.name %></td>
     <td><%= link_to 'Hapus', cart_path(t), data: { "turbo-method": :delete} %></td>
   </tr>
   <% end %>

@@ -9,6 +9,7 @@
     <th>HARGA</th>
     <th>QTY</th>
     <th>JUMLAH</th>
+    <th>Toko</th>
   </tr>
   <% @order.each do |t| %>
   <% coba = Cart.find(t.id)%>
@@ -19,8 +20,9 @@
     <td>Rp <%= number_with_precision( coba.product.price, :precision => 0, :delimiter => '.') %></td>
     <td> <%= t.qty%> </td>
     <td>Rp <%= number_with_precision( coba.product.price, :precision => 0, :delimiter => '.') %></td>
+    <td><%= t.vendor.name %></td>
   </tr>
-  <% @total += coba.product.price %>
+  <% @total += coba.product.price * t.qty %>
   <% end %>
 
 

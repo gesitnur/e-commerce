@@ -2,13 +2,13 @@ class ProductsController < ApplicationController
     include CategoryHelper
 
     def index
-        @products = Product::where(user_id: 2)
+        @products = Product::where(vendor_id: current_user.vendor)
     end
 
     def new
         @product = Product.new
 
-        @inventory = Inventory 
+        @product.build_inventory 
 
         # render plain:list_categories
     end
@@ -30,11 +30,17 @@ class ProductsController < ApplicationController
 
     def update
         @product    = Product.find(params[:id])
-        @product.update(resource_params)
-
         @inventory          = @product.inventory.update(stock: params[:product][:inventory][:stock])
+        
+        if @product.update(resource_params)
+            redirect_to products_path
+        else
+            redirect_to products_path
+            flash[:notice] = @product.errors.full_messages
+        end
 
-        redirect_to products_path
+
+        
         
         # old_desc = @Book.description
 
@@ -46,18 +52,46 @@ class ProductsController < ApplicationController
         # redirect_to book_path(@Book)
 
     end
+
+    def update_stock
+        @product    = Product.find(params[:id])
+        stock       = @product.inventory.stock
+
+        if stock == params[:new_stock].to_i
+            render plain:'aa'
+        else
+
+        action = stock > params[:new_stock].to_i ? 'Pengurangan Stok' : 'Penambahan Stok'
+        
+        Product.make_log(@product, params[:new_stock].to_i - stock, action)
+        
+        @product.inventory.update(stock: params[:new_stock] )
+
+        end
+        # render plain:@product
+
+    end
     
     def create
-        @product            = Product.new(resource_params) 
-        @product[:user_id]  = current_user.id
-        @product.save
+        @product                = Product.new(resource_params) 
+        @product.vendor_id      = current_user.vendor.id
 
-        @inventory          = Inventory.create(product_id: @product[:id], stock: params[:product][:inventory][:stock])
+
+        if @product.save
+            redirect_to products_path
+        else
+            flash[:notice] = @product.errors.full_messages
+            redirect_to products_path
+        end
+
+        # @product.inventory.new
+
+        # @inventory          = Inventory.create(product_id: @product[:id], stock: params[:product][:inventory][:stock])
 
         # book        = Book.new(title: title, description: description, 
         #                 page: page, price: price)
         
-        redirect_to products_path
+        
     end
 
     def destroy
@@ -77,7 +111,7 @@ class ProductsController < ApplicationController
 
     private
     def resource_params
-        params.require(:product).permit(:name, :description, :image, :category_id, :price, :user_id, :weight, :condition, :inventories)
+        params.require(:product).permit(:name, :description, :image, :category_id, :price, :user_id, :weight, :condition, inventory_attributes: [:stock])
 
     end
 

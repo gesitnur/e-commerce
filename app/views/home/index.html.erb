@@ -11,7 +11,8 @@
                     <% end %>
                     <strong><%= t.name.titleize %></br></strong></br>
                     <h5>Rp <%= number_with_precision( t.price, :precision => 0, :delimiter => '.') %></br></h5>
-                    Kota <%= t.user.city %></br>
+                    <p><%= t.vendor.name %></br></p>
+                    Kota <%= t.vendor.city %></br>
                 </div>
                 <div class="col-md-6">
                 </div>

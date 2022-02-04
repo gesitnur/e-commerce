@@ -6,7 +6,6 @@
     <th style="padding: 10px">No</th>
     <th>Tanggal</th>
     <th>Total</th>
-    <th>Toko</th>
     <th>Status</th>
     <th></th>
     <% if current_user.has_role? :vendor %>
@@ -18,15 +17,14 @@
     <td style="padding: 10px">1</td>
     <td><%= t.created_at.to_date %></td>
     <td>Rp <%= number_with_precision( t.total, :precision => 0, :delimiter => '.') %></td>
-    <td><%= t.vendor.name %></td>
     <td><%= t.check(t.status) %></td>
-    <td><%= link_to "Detail", order_path(t) %></td>
+    <td><%= link_to "Detail", sale_path(t) %></td>
 
     <% if current_user.has_role? :vendor %>
     <td>
     <% if t.status == 1%>
-      <%= link_to "Approve", order_path(t, status: 2), data: { "turbo-method": :patch} %>
-      <%= link_to "Reject", order_path(t, status: 3), data: { "turbo-method": :patch} %></td>
+      <%= link_to "Approve", sale_path(t, status: 2), data: { "turbo-method": :patch} %>
+      <%= link_to "Reject", sale_path(t, status: 3), data: { "turbo-method": :patch} %></td>
       <% end %>
     
     <% end %>

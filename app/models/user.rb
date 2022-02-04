@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :addresses
   has_one :balance
   has_one :order
+  has_one :vendor
 
   def self.update_balance a, total
     new_total = a.balance.balance - total.to_i

@@ -5,9 +5,9 @@ class Product < ApplicationRecord
     has_one :inventory
     has_many :stock_history
     belongs_to :category
-    belongs_to :user
+    belongs_to :vendor
 
-    # accepts_nested_attributes_for :inventory  
+    accepts_nested_attributes_for :inventory  
 
     mount_uploader :image, ImageUploader
 
@@ -18,7 +18,7 @@ class Product < ApplicationRecord
 
     end
 
-    def make_log val, qty, action
+    def self.make_log val, qty, action
         stock = val.inventory.stock
 
         if action == 'Penjualan'
@@ -27,7 +27,7 @@ class Product < ApplicationRecord
             new_stock = stock + qty 
         end
 
-        StockHistory.create(product_id: val.id, action: action, qty: qty, old_stock: stock, new_stock: new_stock )
+        StockHistory.create(product_id: val.id, action: action, qty: qty.abs , old_stock: stock, new_stock: new_stock )
 
     end
 
@@ -59,9 +59,10 @@ class Product < ApplicationRecord
             product = Product::find(p.product_id)
             
             stock = product.inventory.stock
+            
+            make_log(product, p.qty, 'Reject')
 
             product.inventory.update(stock: stock + p.qty )
-            
 
             no += 1
         end

@@ -8,6 +8,7 @@
     <div class="col-md-6">
         <h5 style="color:#5A92D6"><%= @product.category.description %></h5></br>
         <h1><%= @product.name %></h1></br>
+        <p>Toko : <%= @product.vendor.name%></p>
         <p>Kondisi : <%= @product.condition.titleize%></p>
         <p>Berat   : <%= @product.weight %> gram</p>
         <p><%= @product.description %></p></br>
@@ -20,7 +21,7 @@
             <div class="col-md-6">
             <%# add_cart %>
 
-            <%= button_to "Tambah Ke Keranjang", carts_path(product_id: @product.id, user_id: current_user.id, vendor_id: @product.user_id), :method => "post", class:"btn btn-success", style:'background-color: #77c852; border-color: #77c852; ' %>
+            <%= button_to "Tambah Ke Keranjang", carts_path(product_id: @product.id, user_id: current_user.id, vendor_id: @product.vendor_id), :method => "post", class:"btn btn-success", style:'background-color: #77c852; border-color: #77c852; ' %>
             </div>
         </div>
     </div>

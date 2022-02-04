@@ -6,79 +6,78 @@
         <div class='form-group'>
             <%= @product.image ? image_tag(@product.image.url, alt: 'Image', class: "img-responsive", width: "200px") : '' ;  %></br>
         </div>
-        
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Produk</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">History</a>
-        </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
         <br/>
-            <div class='form-group'>
-                <%= f.label :name %>
-                <%= f.text_field :name, class: 'form-control', disabled: true %>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Produk</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">History</button>
             </div>
-            <div class='form-group'>
-                <%= f.label :kategori %>
-                <%= f.select :category_id, options_from_collection_for_select(list_categories, :id, :description), {:include_blank => false},class: 'form-control' , disabled: true %>
-            </div>
-            <div class='form-group'>
-                <%= f.label :Harga %>
-                <%= f.text_field :price, class: 'form-control' , disabled: true %>
-            </div>
-            <div class='form-group'>
-                <%= f.label :Berat %>
-                <%= f.text_field :weight, class: 'form-control' , disabled: true %>
-            </div>
-            <div class='form-group'>
-                <%= f.label :Kondisi %>
-                    <%= f.select :condition, options_for_select([['Baru', 'baru'], ['Bekas', 'bekas']]), {:include_blank => false}, class: 'form-control' , disabled: true %>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class='form-group'>
+                        <%= f.label :name %>
+                        <%= f.text_field :name, class: 'form-control', disabled: true %>
+                    </div>
+                    <div class='form-group'>
+                        <%= f.label :kategori %>
+                        <%= f.select :category_id, options_from_collection_for_select(list_categories, :id, :description), {:include_blank => false},class: 'form-control' , disabled: true %>
+                    </div>
+                    <div class='form-group'>
+                        <%= f.label :Harga %>
+                        <%= f.text_field :price, class: 'form-control' , disabled: true %>
+                    </div>
+                    <div class='form-group'>
+                        <%= f.label :Berat %>
+                        <%= f.text_field :weight, class: 'form-control' , disabled: true %>
+                    </div>
+                    <div class='form-group'>
+                        <%= f.label :Kondisi %>
+                            <%= f.select :condition, options_for_select([['Baru', 'baru'], ['Bekas', 'bekas']]), {:include_blank => false}, class: 'form-control' , disabled: true %>
 
-            </div>
-            <%= f.fields_for @inventory do |s| %>
-            <div class='form-group'>
-                <%= s.label :Stok %>
-                <%= s.text_field :stock, class: 'form-control' , disabled: true %>
-            </div>
-            <% end %>
+                    </div>
+                    <%= f.fields_for @inventory do |s| %>
+                    <div class='form-group'>
+                        <%= s.label :Stok %>
+                        <%= s.text_field :stock, class: 'form-control' , disabled: true %>
+                    </div>
+                    <% end %>
 
-            <div class='form-group'>
-                <%= f.label :Deskripsi %>
-                <%= f.text_area :description, rows:10, class: 'form-control' , disabled: true %>
+                    <div class='form-group'>
+                        <%= f.label :Deskripsi %>
+                        <%= f.text_area :description, rows:10, class: 'form-control' , disabled: true %>
+                    </div>
+                </div>
+            
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <table style="width: 100%;
+                                border: 1px solid black;margin: 20px">
+                                <tr>
+                                    <th style="padding: 10px">Aksi</th>
+                                    <th>Jumlah</th>
+                                    <th>Stok Lama</th>
+                                    <th>Stok Baru</th>
+                                </tr>
+                                <% @history.each do |t| %>
+                                <tr>
+                                <td><%= t.action %></td>
+                                <td><%= t.qty %></td>
+                                <td><%= t.old_stock %></td>
+                                <td><%= t.new_stock %></td>
+                                </tr>
+
+                                <% end %>
+                                
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                </table>
+                </div>
+            
             </div>
-            <br>
-        </div>
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <table style="width: 100%;
-                border: 1px solid black;margin: 20px">
-                <tr>
-                    <th style="padding: 10px">Aksi</th>
-                    <th>Qty</th>
-                    <th>Stok Lama</th>
-                    <th>Stok Baru</th>
-                </tr>
-                <% @history.each do |t| %>
-                <tr>
-                   <td><%= t.action %></td>
-                   <td><%= t.qty %></td>
-                   <td><%= t.old_stock %></td>
-                   <td><%= t.new_stock %></td>
-                </tr>
-
-                <% end %>
-                
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-                </table>
-        </div>
-        
+            <br/>        
             <div class='form-group'>
                 <%= link_to 'Edit' , edit_product_path, class: 'btn btn-primary form-control' %>
 
