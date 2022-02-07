@@ -2,7 +2,7 @@ class Product < ApplicationRecord
          
     has_many :carts
     has_many :order_items
-    has_one :inventory
+    has_one :inventory, :dependent => :destroy
     has_many :stock_history
     belongs_to :category
     belongs_to :vendor
@@ -18,8 +18,7 @@ class Product < ApplicationRecord
 
     end
 
-    def self.make_log val, qty, action
-        stock = val.inventory.stock
+    def self.make_log val, stock, qty, action
 
         if action == 'Penjualan'
             new_stock = stock - qty 
@@ -67,6 +66,10 @@ class Product < ApplicationRecord
             no += 1
         end
 
+    end
+
+    def update_product_and_stock params
+        inventory
     end
     
 end

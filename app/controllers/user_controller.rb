@@ -41,6 +41,11 @@ class UserController < ApplicationController
         render plain:'ini delete'
     end
 
+    def topup
+        @user    = User.find(params[:id])
+        @user.balance.update(balance: params[:topup].to_i + @user.balance.balance) 
+    end
+
     private
 
     def resource_params

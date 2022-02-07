@@ -57,7 +57,7 @@
       }
 
     });
-    var global = "Global Variable";
+    var global = "0";
     $(".btn-stock").click(function () {
         var id = $(this).data('id');
         var stock = $(this).data('stock');
@@ -77,14 +77,47 @@
             data: {new_stock: stock},
             dataType: 'JSON',
           success: function(data, textStatus, jqXHR,response){
-                location.reload();
+            if(data.error){
+              alert(data.error);
+            }
+            else{
+              location.reload();
+            }
+                
                 
             }
         })
-        .fail(function() {
-          alert('Silahkan edit stok terlebih dahulu');
+        .fail(function(request, status, error) {
+          alert(request.responseText);
         })
         // console.log(text);
+    });
+
+    $(".btn-topup").click(function () {
+        id = $(this).data('id');
+        topup = $("#val-topup").val();
+      
+        $.ajax({
+          beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            type: 'PATCH',
+            url:  "/user/balance/"+id,
+            data: {topup: topup},
+            dataType: 'JSON',
+          success: function(data, textStatus, jqXHR,response){
+            if(data.error){
+              // alert(data.error);
+            }
+            else{
+              // location.reload();
+            }
+                
+                
+            }
+        })
+        .fail(function(request, status, error) {
+          alert(request.responseText);
+        })
+        // console.log();
     });
 
   </script>

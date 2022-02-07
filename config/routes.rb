@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   # root "articles#index"
   root "home#index"
   patch 'products/update_stock/:id',to: 'products#update_stock'
+  patch 'user/balance/:id',to: 'user#topup'
   
   resources :home do
     member do

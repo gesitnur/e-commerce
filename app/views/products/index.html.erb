@@ -10,7 +10,7 @@
     <th>Jumlah Terjual</th>
     <th></th>
   </tr>
-  <% @products.each do |t| %>
+  <% @products.each_with_index do |t, key| %>
   <tr>
     <td style="padding: 10px">1</td>
     <td><%= t.name %></td>
@@ -18,14 +18,51 @@
     <td><%= t.order_items_count  %></td>
     <td><%= link_to "Detail", product_path(t) %> &nbsp; 
         <%= link_to "Hapus", product_path(t), data: { "turbo-method": :delete} %> &nbsp; 
-        <button type="button" class="btn btn-main btn-primary btn-stock" data-stock=<%= t.inventory.stock %> data-id=<%= t.id %>  data-bs-toggle= "modal", data-bs-target='#exampleModal'>Edit Stock</button>
+        <button type="button" class="btn btn-main btn-primary btn-stock" data-stock=<%= t.inventory.stock %> data-id=<%= t.id %>  data-bs-toggle= "modal", data-bs-target="#exampleModal<%= key %>">Edit Stock</button>
 
         </td>
 
   </tr>
+  <div class="modal fade" id="exampleModal<%= key %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Stok</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+    <%= form_for t, local: true, data: { turbo: false } do |f| %>
+    
+    <div class="modal-body">
+      <%= f.fields_for :inventory do |s| %>
+      <div class='form-group'>
+          <%= s.label :Stok %>
+          <%= s.text_field :stock, class: 'form-control' %>
+      </div>
+      <% end %>
+    </div>
+      
+    <div class="modal-footer">
+      <div class='form-group'>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <%= f.submit 'Simpan', class: 'btn btn-primary'%>
+      </div>
+    </div>
+      
+
+    <% end %>
+
+        
+        
+      </div>
+    </div>
+  </div>
+  
   <% end %>
 
 <!-- Modal -->
+
+  
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

@@ -32,11 +32,34 @@
         <% if !@user.has_role? :admin %>
         <div class='form-group'>
             <%= link_to 'Edit' , edit_user_path, class: 'btn btn-secondary form-control' %><br/><br/>
-            <%= link_to 'Top Up' , edit_user_path, class: 'btn btn-primary form-control' %>
+            <button type="button" class="btn btn-primary form-control" data-bs-toggle= "modal", data-bs-target="#exampleModal">Top Up</button>
+
             <br/><br/>
 
         </div>
         <% end %>
+
+        
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Topup Saldo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+      
+      <div class="modal-body">
+        <input type="text" id="val-topup" placeholder="Masukkan Nominal" class="form-control">
+      </div>
+        
+      <div class="modal-footer">
+        <div class='form-group'>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          <button type="button" data-id=<%=@user.id%> class="btn btn-primary btn-topup">Simpan</button>
+        </div>
+      </div>
     
         <% end %>
 </div>

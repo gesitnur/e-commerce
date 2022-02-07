@@ -25,50 +25,40 @@ class ProductsController < ApplicationController
 
     def edit
         @product    = Product.find(params[:id])
-        @inventory  = @product.inventory
     end
 
     def update
+        # p = Product.new
         @product    = Product.find(params[:id])
-        @inventory          = @product.inventory.update(stock: params[:product][:inventory][:stock])
-        
-        if @product.update(resource_params)
-            redirect_to products_path
-        else
-            redirect_to products_path
-            flash[:notice] = @product.errors.full_messages
-        end
-
-
-        
-        
-        # old_desc = @Book.description
-
-       
-
-        # @Book.update(param)
-        # flash[:notice] = "Book with ID #{params[:id]} has been updated"
-
-        # redirect_to book_path(@Book)
+        render plain:@product.update_product_and_stock(resource_params)
+        # # render plain: resource_params
+        # if @product.update(resource_params)
+        #     redirect_to products_path
+        # else
+        #     redirect_to products_path
+        #     flash[:notice] = @product.errors.full_messages
+        # end
 
     end
 
     def update_stock
+
+        render plain: params
+
         @product    = Product.find(params[:id])
         stock       = @product.inventory.stock
 
-        if stock == params[:new_stock].to_i
-            render plain:'aa'
-        else
-
-        action = stock > params[:new_stock].to_i ? 'Pengurangan Stok' : 'Penambahan Stok'
+        # if @product.inventory.update(stock: params[:new_stock] )
         
-        Product.make_log(@product, params[:new_stock].to_i - stock, action)
-        
-        @product.inventory.update(stock: params[:new_stock] )
+        #     action = stock > params[:new_stock].to_i ? 'Pengurangan Stok' : 'Penambahan Stok'
+            
+        #     Product.make_log(@product, stock, params[:new_stock].to_i - stock, action)
 
-        end
-        # render plain:@product
+        #     render json: { success: 'success' }
+
+        # else
+        #     render json: { error: @product.inventory.errors.full_messages }
+        # end
 
     end
     
@@ -97,21 +87,23 @@ class ProductsController < ApplicationController
     def destroy
         @product = Product.find(params[:id])
 
-        @inventory = @product.inventory
+        
+        if @product.destroy
+            redirect_to products_path, status: :see_other
+        else
+            flash[:notice] = @product.errors.full_messages
+            redirect_to products_path, status: :see_other
+        end
 
-        # render plain: @inventory.inspect
-
-        @product.destroy
-
-        @inventory.destroy
         
         
-        redirect_to products_path, status: :see_other
+        
+        
     end
 
     private
     def resource_params
-        params.require(:product).permit(:name, :description, :image, :category_id, :price, :user_id, :weight, :condition, inventory_attributes: [:stock])
+        params.require(:product).permit(:name, :description, :image, :category_id, :price, :user_id, :weight, :condition, inventory_attributes: [:id, :stock])
 
     end
 
