@@ -1,0 +1,47 @@
+<div class='col-md-6 offset-md-3'>
+    <h3>Profile</h3>
+    <br/>
+    <div class='form-group'>
+        <label for="name">Nama</label>
+        <input type="text" value="<%= current_user.name %>" class="form-control" disabled>
+    </div>
+    <div class='form-group'>
+        <label for="name">Email</label>
+        <input type="text" value="<%= current_user.email %>" class="form-control" disabled>
+    </div>
+    <div class='form-group'>
+        <label for="name">No Telepon</label>
+        <input type="text" value="<%= current_user.phone %>" class="form-control" disabled>
+    </div>
+    <div class='form-group'>
+        <label for="name">Kota</label>
+        <input type="text" value="<%= current_user.city %>" class="form-control" disabled>
+    </div>
+    <br/>
+    <%= link_to 'Edit Profile', edit_profile_path(current_user), class:'btn btn-secondary mb-3' %>
+    <br/>
+    <br/>
+
+    <h4>Alamat</h4>
+    <%= link_to "Tambah Alamat", new_address_path, class:"btn btn-primary" %>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">No</th>
+            <th scope="col">Alamat</th>
+            <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% current_user.addresses.each_with_index do |t, key| %>
+                <tr>
+                <td width="10%"><%= key+1 %></td>
+                <td width="60%"><%= t.address %></td>
+                <td><%= link_to 'Edit', edit_address_path(t), class:'btn btn-secondary' %>&nbsp;
+                    <%= link_to 'Hapus', address_path(t), data: { "turbo-method": :delete} , class:'btn btn-danger' %>
+                </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table> 
+</div>

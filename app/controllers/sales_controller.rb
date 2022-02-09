@@ -11,18 +11,26 @@ class SalesController < ApplicationController
 
     def update
         @order = Order.find(params[:id])
+
         if params[:status] == '3'
             
-            User.restore_balance(User::find(@order.user_id), @order.total)
+            # User.restore_balance(User::find(@order.user_id), @order.total)
 
-            Product.restore_stock(@order.order_items)
+            # Product.restore_stock(@order.order_items)
+
+            # t.product.update_product_and_stock({inventory_attributes: { stock: t.product.inventory.stock - t.qty}}, 'Penjualan')
+
         else
-            Product.custom_counter(@order.order_items)
+            # Product.custom_counter(@order.order_items)
         end
-        # render plain: 'ini update di sales'
+
+        # balance = current_user.balance.balance
+
+        # current_user.balance.update(balance: balance + @order.total);
+
         @order.update(status: params[:status])
        
-        flash[:notice] = "Data Berhasil Diubah"
+        # flash[:notice] = "Data Berhasil Diubah"
         redirect_to sales_path
     end
 

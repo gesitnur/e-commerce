@@ -12,12 +12,12 @@
   </tr>
   <% @products.each_with_index do |t, key| %>
   <tr>
-    <td style="padding: 10px">1</td>
+    <td style="padding: 10px"><%= key+1 %></td>
     <td><%= t.name %></td>
     <td><%= t.inventory.stock %></td>
-    <td><%= t.order_items_count  %></td>
-    <td><%= link_to "Detail", product_path(t) %> &nbsp; 
-        <%= link_to "Hapus", product_path(t), data: { "turbo-method": :delete} %> &nbsp; 
+    <td><%= t.order_items.size  %></td>
+    <td><%= link_to "Detail", product_path(t), class:"btn btn-main btn-secondary" %> &nbsp; 
+        <%= link_to "Hapus", product_path(t), class:"btn btn-main btn-danger", data: { "turbo-method": :delete} %> &nbsp; 
         <button type="button" class="btn btn-main btn-primary btn-stock" data-stock=<%= t.inventory.stock %> data-id=<%= t.id %>  data-bs-toggle= "modal", data-bs-target="#exampleModal<%= key %>">Edit Stock</button>
 
         </td>

@@ -41,7 +41,7 @@
         </div>
         <div class="form-check">
           <% @address.each do |val|%>
-          <%= radio_button_tag :address, val.id, false,  class:'form-check-input' %>
+          <%= radio_button_tag :address, val.id, false,  class:'form-check-input address' %>
           <%= label :address, val.address, class:"form-check-label" %>
           </br>
           <% end%>
@@ -55,7 +55,8 @@
     </div>
     </br>
     <div>
-        <%= submit_tag "Order", class: "btn btn-success text-right btn-order", style:'background-color: #0E7387; border-color: #0E7387; ' %>
+        <%= submit_tag "Order", class: "btn btn-success float-end btn-order", style:'background-color: #0E7387; border-color: #0E7387; ' %>
+        <%= link_to "Batal", carts_path, class: "btn btn-secondary float-end me-3" %>
     </div>
     
 

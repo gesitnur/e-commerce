@@ -18,37 +18,21 @@ class Product < ApplicationRecord
 
     end
 
-    def self.make_log val, stock, qty, action
-
-        if action == 'Penjualan'
-            new_stock = stock - qty 
-        else
-            new_stock = stock + qty 
-        end
-
-        StockHistory.create(product_id: val.id, action: action, qty: qty.abs , old_stock: stock, new_stock: new_stock )
-
-    end
-
-    def self.custom_counter val
+    # def self.custom_counter val
         
-        no = 0;
-        val
-        val.each do |p|
-            product = Product::find(p.product_id)
-            counter = product.order_items_count
+    #     no = 0;
+    #     val
+    #     val.each do |p|
+    #         product = Product::find(p.product_id)
+    #         counter = product.order_items_count
 
-            product.update(order_items_count: counter + p.qty )
+    #         product.update(order_items_count: counter + p.qty )
             
-            no += 1
-        end
+    #         no += 1
+    #     end
 
         
-    end
-
-    def create_log product_id, old_stock, qty
-
-    end
+    # end
 
     def self.restore_stock val
         coba = []
@@ -68,8 +52,26 @@ class Product < ApplicationRecord
 
     end
 
-    def update_product_and_stock params
-        inventory
+    def update_product_and_stock params, action = nil
+
+        # params
+        old_stock2 = inventory.stock
+        self.update(params)
+
+        # if action == nil
+            action ||= inventory.stock > old_stock2 ? 'Penambahan Stok' : 'Pengurangan Stok'
+        # end
+        # old_stock2
+        # if inventory.stock_before_last_save
+            make_log inventory.stock, old_stock2, action
+        # end
+
+    end
+    
+    def make_log stock, old_stock, action
+
+        StockHistory.create(product: self, action: action, qty: (stock - old_stock).abs , old_stock: old_stock, new_stock: stock )
+
     end
     
 end

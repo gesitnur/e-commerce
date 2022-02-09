@@ -23,18 +23,13 @@ class UserController < ApplicationController
         
         @user.update(resource_params)
 
-        if params[:role] != @user.roles[0].name
+        if params[:user][:role] != @user.roles[0].name && params[:user][:role]
             @user.remove_role(@user.roles[0].name)
 
-            @user.grant(params[:role] )
+            @user.grant(params[:user][:role] )
         end
         
-        # @user.remove_role(:admin)
-
-        # @user.grant(:customer)
-        
-        render plain:resource_params[:role] != @user.roles[0].name
-        # render plain:@user.roles[0].name
+        render plain:'sukses'
     end        
 
     def destroy
@@ -46,10 +41,13 @@ class UserController < ApplicationController
         @user.balance.update(balance: params[:topup].to_i + @user.balance.balance) 
     end
 
+    def profile ;end
+
     private
 
     def resource_params
         params.require(:user). permit(:name, :email, :phone, :city)
     end
+    # spasi jadikan 2
     
 end

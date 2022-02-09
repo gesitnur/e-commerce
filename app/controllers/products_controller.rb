@@ -28,9 +28,13 @@ class ProductsController < ApplicationController
     end
 
     def update
-        # p = Product.new
+        
         @product    = Product.find(params[:id])
         render plain:@product.update_product_and_stock(resource_params)
+
+        # render plain:resource_params
+
+
         # # render plain: resource_params
         # if @product.update(resource_params)
         #     redirect_to products_path
@@ -86,7 +90,6 @@ class ProductsController < ApplicationController
 
     def destroy
         @product = Product.find(params[:id])
-
         
         if @product.destroy
             redirect_to products_path, status: :see_other

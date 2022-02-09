@@ -29,13 +29,16 @@ class OrdersController < ApplicationController
             
                         }
                     no += 1
-                    # Product.make_log(t.product, t.product.inventory.stock, t.qty, 'Penjualan')
+                    t.product.update_product_and_stock({inventory_attributes: { stock: t.product.inventory.stock - t.qty}}, 'Penjualan')
 
-                    t.product.add_stock(t.product, t.qty)
+                    # t.product.add_stock(t.product, t.qty)
                     # t.product.custom_counter(t.product, t.qty)
                     total = total+t.product.price * t.qty
+                    
+                    Product.reset_counters(t.product.id, :order_items)
+
             end
-            @order        = @order.update(total: total)
+            # @order        = @order.update(total: total)
             total = 0
         end
 
@@ -45,10 +48,10 @@ class OrdersController < ApplicationController
         User.update_balance(current_user, params[:total])
 
 
-        render plain:item
+        # render plain:item
         # @item.destroy_all
 
-        # redirect_to root_path
+        redirect_to transaction_orders_path
         
     end
 

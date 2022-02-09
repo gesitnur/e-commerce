@@ -10,6 +10,9 @@ class User < ApplicationRecord
   has_one :balance
   has_one :order
   has_one :vendor
+  has_one :users_role
+
+  accepts_nested_attributes_for :users_role
 
   def self.update_balance a, total
     new_total = a.balance.balance - total.to_i

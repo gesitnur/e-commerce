@@ -1,6 +1,11 @@
 class HomeController < ApplicationController
   def index
       @products = Product::all
+
+    # OrderItem.create(order_id: 292, product_id: 3, qty: 1, total: 600000)
+
+    # Product.reset_counters(3, :order_items)
+
       # render plain:@categories.inspect
   end
 

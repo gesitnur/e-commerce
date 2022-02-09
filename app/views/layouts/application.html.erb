@@ -55,6 +55,19 @@
         event.preventDefault();
         alert("Saldo anda tidak mencukupi, silahkan isi ulang terlebih dahulu");
       }
+        var radios = $(".address");
+        var formValid = false;
+
+        var i = 0;
+        while (!formValid && i < radios.length) {
+            if (radios[i].checked) formValid = true;
+            i++;        
+        }
+
+        if (!formValid){ 
+          alert("Pilih alamat terlebih dahulu")
+          event.preventDefault();
+        };
 
     });
     var global = "0";

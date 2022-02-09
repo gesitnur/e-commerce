@@ -50,7 +50,7 @@
                 <% if user_signed_in?%>
                 <li><%= link_to 'Transaksi',transaction_orders_path, class: 'dropdown-item' %></li>
                 <% if user_signed_in? && current_user.has_role?(:customer) %>
-                  <li><%= link_to 'Profile',transaction_orders_path, class: 'dropdown-item' %></li>
+                  <li><%= link_to 'Profile',profile_path, class: 'dropdown-item' %></li>
                 <% end %>
                 <li>
                 </br>
