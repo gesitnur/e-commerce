@@ -1,4 +1,6 @@
 class UserController < ApplicationController
+    
+    before_action :authenticate_user!
     def index
         @user = User::all
         # render plain:@user
@@ -46,7 +48,7 @@ class UserController < ApplicationController
     private
 
     def resource_params
-        params.require(:user). permit(:name, :email, :phone, :city)
+        params.require(:user). permit(:name, :email, :phone, :city, vendor_attributes: [:id, :name, :city])
     end
     # spasi jadikan 2
     

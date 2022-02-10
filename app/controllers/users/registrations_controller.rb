@@ -37,17 +37,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
         set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
 
+        redirect_to profile_path
 
-        if current_user.has_role? :customer
-            root_path
-        elsif current_user.has_role? :vendor
-            transaction_orders_path
-        else
-            root_path
-        end
-
-
-        redirect_to root_path
       else
         set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
         expire_data_after_sign_in!

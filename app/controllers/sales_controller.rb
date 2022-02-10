@@ -1,4 +1,6 @@
 class SalesController < ApplicationController
+    
+    before_action :authenticate_user!
     def index
         @transaction = Order.where(vendor_id: current_user.vendor)
     end

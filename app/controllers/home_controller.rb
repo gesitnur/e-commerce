@@ -1,5 +1,8 @@
 class HomeController < ApplicationController
+  # skip_before_action :authenticate_user!, only: [:index]
+  
   def index
+      # debugger
       @products = Product::all
 
     # OrderItem.create(order_id: 292, product_id: 3, qty: 1, total: 600000)

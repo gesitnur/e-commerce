@@ -1,15 +1,1 @@
-<div class='col-md-6 offset-md-3'>
-    <h3>Tambah Alamat</h3>
-    <br/>
-
-    <%= form_for @address, local: true, data: { turbo: false } do |f| %>
-        <div class='form-group'>
-            <%= f.label :alamat %>
-            <%= f.text_field :address, class: 'form-control' %>
-        </div>
-        <br>
-        <div class='form-group'>
-            <%= f.submit 'Simpan', class: 'btn btn-primary form-control'%>
-        </div>
-    <% end %>
-</div>
+<%= render 'form_address' %>

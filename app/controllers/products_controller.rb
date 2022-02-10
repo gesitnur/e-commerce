@@ -1,4 +1,7 @@
 class ProductsController < ApplicationController
+    
+    before_action :authenticate_user!
+    before_action :find_product
     include CategoryHelper
 
     def index
@@ -14,7 +17,6 @@ class ProductsController < ApplicationController
     end
 
     def show
-        @product    = Product.find(params[:id])
         @inventory  = @product.inventory
         @history    = @product.stock_history
         
@@ -23,13 +25,10 @@ class ProductsController < ApplicationController
         # render plain:@inventory.inspect
     end
 
-    def edit
-        @product    = Product.find(params[:id])
-    end
+    def edit ;end
 
     def update
         
-        @product    = Product.find(params[:id])
         render plain:@product.update_product_and_stock(resource_params)
 
         # render plain:resource_params
@@ -49,7 +48,6 @@ class ProductsController < ApplicationController
 
         render plain: params
 
-        @product    = Product.find(params[:id])
         stock       = @product.inventory.stock
 
         # if @product.inventory.update(stock: params[:new_stock] )
@@ -89,25 +87,23 @@ class ProductsController < ApplicationController
     end
 
     def destroy
-        @product = Product.find(params[:id])
-        
         if @product.destroy
             redirect_to products_path, status: :see_other
         else
             flash[:notice] = @product.errors.full_messages
             redirect_to products_path, status: :see_other
         end
-
-        
-        
-        
-        
+   
     end
 
     private
     def resource_params
         params.require(:product).permit(:name, :description, :image, :category_id, :price, :user_id, :weight, :condition, inventory_attributes: [:id, :stock])
 
+    end
+
+    def find_product
+        @product    = Product.find(params[:id])
     end
 
 end

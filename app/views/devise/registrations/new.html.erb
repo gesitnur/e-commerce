@@ -22,8 +22,10 @@
     
     <%= f.fields_for :users_role do |s| %>
     <div class="field">
-        <%= s.label :Role %><br />
-        <%= s.text_field :role_id %>
+        <%= s.label :Daftar_Sebagai %><br />
+        <%= s.select :role_id, options_from_collection_for_select(list_role, :id, :name), {:include_blank => false} %>
+        
+
     </div>
     <% end %>
         

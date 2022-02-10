@@ -1,6 +1,6 @@
 module CategoryHelper
 
     def list_categories
-        Category::all
+        Category.all
     end
 end

@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   patch 'products/update_stock/:id',to: 'products#update_stock'
   patch 'user/balance/:id',to: 'user#topup'
   get 'user/profile',to: 'user#profile', :as => :profile
+  get 'user/shop',to: 'user#shop', :as => :shop
   get 'user/profile/:id',to: 'user#edit_profile', :as => :edit_profile
+  get 'user/shop/:id',to: 'user#edit_shop', :as => :edit_shop
   
   resources :home do
     member do

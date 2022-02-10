@@ -1,5 +1,7 @@
 class CartsController < ApplicationController
-  
+    
+    before_action :authenticate_user!
+
     def index
         @cart = current_user.carts
         # render plain:current_user.carts.inspect

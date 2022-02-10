@@ -1,4 +1,7 @@
 class OrdersController < ApplicationController
+    
+    before_action :authenticate_user!
+    
     def index
         @order = current_user.carts.where(status: 'checked')
 

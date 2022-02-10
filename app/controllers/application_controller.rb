@@ -11,4 +11,17 @@ class ApplicationController < ActionController::Base
             root_path
         end
     end
+
+    # def after_sign_out_path_for(resource_or_scope)
+    #     home_index_path
+    # end
+    
+    
+    def after_sign_out_path_for(resource_or_scope)
+        debugger
+        home_index_path
+        # '/users/sign_in'
+        # redirect_to :controller => "home", :action => "index", '_method' =>:get
+    end
+
 end

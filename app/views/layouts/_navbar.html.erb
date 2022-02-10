@@ -35,12 +35,14 @@
         </ul>
         <form class="d-flex">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <% if user_signed_in?%>
           <li class="nav-item">
             <%= link_to 'Cart', carts_path, class: 'nav-link active' %>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Saldo : <%= user_signed_in? ? "Rp #{ number_with_precision( current_user.balance.balance, :precision => 0, :delimiter => '.') }": ''%></a>
+            <a class="nav-link">Saldo : <%= "Rp #{ number_with_precision( current_user.balance.balance, :precision => 0, :delimiter => '.') }"%></a>
           </li>
+          <% end %>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <%= user_signed_in? ? current_user.name : 'Halo Guest'%>
@@ -49,11 +51,9 @@
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <% if user_signed_in?%>
                 <li><%= link_to 'Transaksi',transaction_orders_path, class: 'dropdown-item' %></li>
-                <% if user_signed_in? && current_user.has_role?(:customer) %>
-                  <li><%= link_to 'Profile',profile_path, class: 'dropdown-item' %></li>
-                <% end %>
+                <li><%= link_to 'Profile',profile_path, class: 'dropdown-item' %></li>
                 <li>
-                </br>
+                <br/>
                 <li><%= link_to 'Logout', destroy_user_session_path, data: { "turbo-method": :delete}, class: 'dropdown-item' %></li>
                 <li>
             </li>
