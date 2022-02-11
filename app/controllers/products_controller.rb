@@ -31,18 +31,12 @@ class ProductsController < ApplicationController
 
     def update
         
-        render plain:@product.update_product_and_stock(resource_params)
-
-        # render plain:resource_params
-
-
-        # # render plain: resource_params
-        # if @product.update(resource_params)
-        #     redirect_to products_path
-        # else
-        #     redirect_to products_path
-        #     flash[:notice] = @product.errors.full_messages
-        # end
+        if @product.update_product_and_stock(resource_params)
+            redirect_to products_path
+        else
+            redirect_to products_path
+            flash[:notice] = @product.errors.full_messages
+        end
 
     end
 
