@@ -44,23 +44,12 @@ class OrdersController < ApplicationController
             total = 0
         end
 
-        # OrderItem.create(item)
-        # OrderItem.insert_all(item)
-
-        # posts = Array.new
-        # posts << {order_id:346, product_id: 3, qty: 1, total: 6000}
-        # posts << {order_id:346, product_id: 3, qty: 1, total: 6000}
-        # OrderItem.create(posts)
-
-        render plain:12
         
-        # User.update_balance(current_user, params[:total])
+        User.update_balance(current_user, params[:total])
 
+        @order.destroy_all
 
-        # # render plain:item
-        # # @order.destroy_all
-
-        # redirect_to transaction_orders_path
+        redirect_to transaction_orders_path
         
     end
 
