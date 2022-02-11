@@ -30,7 +30,7 @@ class Order < ApplicationRecord
                 #  t.product.inventory.stock += t.qty
                 #  t.product.inventory.save
 
-                t.product.update_stock({inventory_attributes: { stock: t.product.inventory.stock + t.qty}}, 'Reject')
+                t.product.update_product_and_stock({inventory_attributes: { stock: t.product.inventory.stock + t.qty}}, 'Reject')
             end
         end
 

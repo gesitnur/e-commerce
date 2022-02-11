@@ -58,7 +58,7 @@ class Product < ApplicationRecord
 
     end
 
-    def update_product params, action = nil
+    def update_product_and_stock params, action = nil
 
         # params
         old_stock2 = inventory.stock
