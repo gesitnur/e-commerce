@@ -3,10 +3,7 @@ class AddressesController < ApplicationController
     before_action :authenticate_user!
     before_action :find_address
     
-    def index
-        # @user = current_user
-        # render plain:current_user.inspect
-    end
+    def index ;end
 
     def edit ;end
 
@@ -29,14 +26,14 @@ class AddressesController < ApplicationController
     end
 
     def destroy
-        # if @address.destroy
-        #     redirect_to profile_path, status: :see_other
-        # else
-        #     flash[:notice] = @address.errors.full_messages
-        #     redirect_to profile_path, status: :see_other
-        # end
+        if @address.destroy
+            redirect_to profile_path, status: :see_other
+        else
+            flash[:notice] = @address.errors.full_messages
+            redirect_to profile_path, status: :see_other
+        end
 
-        render plain:'ini hapus data'
+        # render plain:'ini hapus data'
 
     end
 
