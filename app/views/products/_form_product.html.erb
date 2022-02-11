@@ -1,5 +1,14 @@
 <div class='col-md-6 offset-md-3'>
-    <h3>Tambah Produk</h3>
+
+<% if @product.errors.any? %>
+    <div class='alert alert-danger alert-dismissible'>
+    <% @product.errors.full_messages.each do |error| %>
+        <span> <%= error %> </span></br>
+    <% end %>
+    </div>
+<%end%>
+
+<h3>Form Produk</h3>
     <br>
     <%= form_for @product, local: true, data: { turbo: false } do |f| %>
         <div class='form-group'>

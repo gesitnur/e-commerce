@@ -1,10 +1,13 @@
 class OrderItem < ActiveRecord::Base
     belongs_to :order
-    belongs_to :product, counter_cache: true
+    belongs_to :product
 
-    # belongs_to :product, counter_cache: :order_items_count
-    counter_culture :product
-    # counter_culture :product, column_name: proc {|model| model.order.equal?(2) ? 'order_count' : nil }
-    
+    after_create :reduce_stock
+
+    def reduce_stock
+        product.inventory.stock -= self.qty
+        product.inventory.save
+        self.update(coba: 'ini percobaan')
+    end 
 
 end

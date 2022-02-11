@@ -1,5 +1,11 @@
 class Product < ApplicationRecord
-         
+
+    validates :name, presence: {message: 'Nama harus Diisi'}
+    validates :price, presence: {message: 'Harga harus Diisi'}
+    validates :weight, presence: {message: 'Berat harus Diisi'}
+    validates :description, presence: {message: 'Deskripsi harus Diisi'}
+    validates :image, presence: {message: 'Gambar harus Diisi'}
+    
     has_many :carts
     has_many :order_items
     has_one :inventory, :dependent => :destroy
@@ -52,7 +58,7 @@ class Product < ApplicationRecord
 
     end
 
-    def update_product_and_stock params, action = nil
+    def update_product params, action = nil
 
         # params
         old_stock2 = inventory.stock

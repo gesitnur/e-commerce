@@ -1,8 +1,10 @@
 class Inventory < ActiveRecord::Base
+
+    validates :stock, presence: {message: 'Stock harus Diisi'}
     
     belongs_to :product
 
-    validate :check_stock
+    # validate :check_stock
 
     # before_save :make_history
 

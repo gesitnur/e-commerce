@@ -1,7 +1,9 @@
 class ProductsController < ApplicationController
     
     before_action :authenticate_user!
-    before_action :find_product
+
+    before_action :find_product, only: [:edit, :update, :destroy, :show]
+    
     include CategoryHelper
 
     def index
@@ -68,21 +70,15 @@ class ProductsController < ApplicationController
         @product                = Product.new(resource_params) 
         @product.vendor_id      = current_user.vendor.id
 
-
         if @product.save
+            flash[:notice] = 'Produk Berhasil Disimpan'
             redirect_to products_path
         else
-            flash[:notice] = @product.errors.full_messages
-            redirect_to products_path
+            # flash[:notice] = @product.errors.full_messages
+            render 'new'
         end
 
-        # @product.inventory.new
-
-        # @inventory          = Inventory.create(product_id: @product[:id], stock: params[:product][:inventory][:stock])
-
-        # book        = Book.new(title: title, description: description, 
-        #                 page: page, price: price)
-        
+        # @inventory          = Inventory.create(product_id: @product[:id], stock: params[:product][:inventory][:stock])        
         
     end
 

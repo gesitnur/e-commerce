@@ -5,7 +5,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  root "home#index"
   patch 'products/update_stock/:id',to: 'products#update_stock'
   patch 'user/balance/:id',to: 'user#topup'
   get 'user/profile',to: 'user#profile', :as => :profile
@@ -45,6 +44,8 @@ Rails.application.routes.draw do
     end
   end
 
- 
+  root "home#index"
+   # Handing error no route match
+   match "*path", to: "application#error_404", via: :all
 
 end

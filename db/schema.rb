@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_07_071830) do
+ActiveRecord::Schema.define(version: 2022_02_10_060830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 2022_02_07_071830) do
     t.integer "total"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "coba"
+    t.string "coba", limit: 255
   end
 
   create_table "orders", force: :cascade do |t|
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 2022_02_07_071830) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "vendor_id"
+    t.string "coba", limit: 255
   end
 
   create_table "products", force: :cascade do |t|
@@ -114,7 +115,6 @@ ActiveRecord::Schema.define(version: 2022_02_07_071830) do
     t.string "condition"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "order_count", default: 0, null: false
     t.integer "order_items_count", default: 0
   end
 

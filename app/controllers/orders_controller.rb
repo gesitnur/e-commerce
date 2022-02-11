@@ -1,60 +1,66 @@
 class OrdersController < ApplicationController
     
     before_action :authenticate_user!
+
+    before_action :find_cart, only: [:index, :create]
     
     def index
-        @order = current_user.carts.where(status: 'checked')
-
-        @address = current_user.carts.find_by_user_id(current_user.id).user.addresses
+        @address = current_user.addresses
         # render plain:@address.inspect
     end
 
     def create
-        @item = current_user.carts.where(status: 'checked')
-
         no = 0
 
         total = 0
 
         item =  []
         
-        @arrayy = @item.group_by(&:vendor_id)
+        @arrayy = @order.group_by(&:vendor_id)
 
         @arrayy.each do |client_id, projects|
             @order        = Order.new(user_id:current_user.id , total: params[:total] , address_id: params[:address], vendor_id: client_id)
             @order.save
             projects.each do |t|
-                item[no] = {
+                item = {
                             order_id:   @order.id, 
                             product_id: t.product_id,
                             qty:        t.qty,
                             total:      t.product.price * t.qty
             
                         }
+
+                        OrderItem.create(item) 
                     no += 1
-                    t.product.update_product_and_stock({inventory_attributes: { stock: t.product.inventory.stock - t.qty}}, 'Penjualan')
+                    # t.product.update_product_and_stock({inventory_attributes: { stock: t.product.inventory.stock - t.qty}}, 'Penjualan')
 
                     # t.product.add_stock(t.product, t.qty)
                     # t.product.custom_counter(t.product, t.qty)
                     total = total+t.product.price * t.qty
                     
-                    Product.reset_counters(t.product.id, :order_items)
 
             end
-            # @order        = @order.update(total: total)
+            @order        = @order.update(total: total)
             total = 0
         end
 
+        # OrderItem.create(item)
+        # OrderItem.insert_all(item)
 
-        OrderItem.insert_all(item) 
+        # posts = Array.new
+        # posts << {order_id:346, product_id: 3, qty: 1, total: 6000}
+        # posts << {order_id:346, product_id: 3, qty: 1, total: 6000}
+        # OrderItem.create(posts)
+
+        render plain:12
         
-        User.update_balance(current_user, params[:total])
+        # User.update_balance(current_user, params[:total])
 
 
-        # render plain:item
-        # @item.destroy_all
+        # # render plain:item
+        # # @order.destroy_all
 
-        redirect_to transaction_orders_path
+        # redirect_to transaction_orders_path
         
     end
 
@@ -69,6 +75,12 @@ class OrdersController < ApplicationController
     def transaction
         @transaction = Order.where(user_id: current_user)
         # render plain:@transaction.inspect
+    end
+
+    private
+
+    def find_cart
+        @order = current_user.carts.where(status: 'checked')
     end
 
 end
