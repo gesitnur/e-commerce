@@ -19,11 +19,11 @@ class OrdersController < ApplicationController
         @arrayy = @order.group_by(&:vendor_id)
 
         @arrayy.each do |client_id, projects|
-            @order        = Order.new(user_id:current_user.id , total: params[:total] , address_id: params[:address], vendor_id: client_id)
-            @order.save
+            @order_data        = Order.new(user_id:current_user.id , total: params[:total] , address_id: params[:address], vendor_id: client_id)
+            @order_data.save
             projects.each do |t|
                 item = {
-                            order_id:   @order.id, 
+                            order_id:   @order_data.id, 
                             product_id: t.product_id,
                             qty:        t.qty,
                             total:      t.product.price * t.qty
@@ -40,7 +40,7 @@ class OrdersController < ApplicationController
                     
 
             end
-            @order        = @order.update(total: total)
+            @order_data        = @order_data.update(total: total)
             total = 0
         end
 
